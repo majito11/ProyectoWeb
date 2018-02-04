@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="https://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0&mkt=en-EN"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var map = null;
+        function LoadMap() {
+            map = new Microsoft.Maps.Map(
+                document.getElementById("myMap"),
+                {
+                    credentials: "Avizz_XBIXe0bcxls_BCliORdwwHk88mz1icNo9FM_vVYVSETBhs07W8hOjgwFT5",
+                    zoom: 7,
+                                     
+                });
+
+        }
+        LoadMap();
+
+        $('#btnShowLocations').click(function () {
+          
+            var url = "/Home/GetLocations";
+            $.getJSON(url, null, function (data) {
+                $.each(data, function (index, LocationData) {
+                    var pushpin = new Microsoft.Maps.Pushpin(map.getCenter(), null);
+                    pushpin.setLocation(new Microsoft.Maps.Location(
+                        LocationData.latitude,
+                        LocationData.longitude));
+                    map.entities.push(pushpin);
+                    map.setView({
+                        zoom: 6, center: new Microsoft.Maps.Location(-0.1806532, -78.46783820000002)
+                    });
+                });
+            });
+        });
+    });
+</script>
+<br />
+<br />
+<br />
+<div id="myMap" style="position:center; width:1335px; height:600px;">
+</div>
+    <br />
+    <div>
+    <input type="button" id="btnShowLocations" value="Show all locations"/>
+</div>
+
+
+

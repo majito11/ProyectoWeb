@@ -1,0 +1,53 @@
+﻿@model WebApplication2.Administrador
+
+@{
+    ViewBag.Title = "Login";
+}
+
+
+
+<br />
+<br />
+
+<h2>Login</h2>
+
+@using (Html.BeginForm("Login", "Home", FormMethod.Post))
+{
+
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    if (ViewBag.Message != null)
+    {
+        <div style="border:1px solid red ">
+            @ViewBag.Message
+        </div>
+    }
+
+
+    <table>
+        <tr>
+            <td>@Html.LabelFor(a => a.UsuarioAdministrador)</td>
+            <td>@Html.TextBoxFor(a => a.UsuarioAdministrador)</td>
+            <td>@Html.ValidationMessageFor(a => a.UsuarioAdministrador)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(a => a.PasswordAdministrador)</td>
+            <td>@Html.PasswordFor(a => a.PasswordAdministrador)</td>
+            <td>@Html.ValidationMessageFor(a => a.PasswordAdministrador)</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>
+                <input type="submit" value="Login" />
+            </td>
+
+        </tr>
+    </table>
+}
+
+@section Scripts{
+    @Scripts.Render("~/ bundles / jqueryval")
+
+}

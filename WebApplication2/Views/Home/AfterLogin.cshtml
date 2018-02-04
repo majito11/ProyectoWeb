@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "AfterLogin";
+}
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<div>
+    <ul>
+        <li>
+            @Html.ActionLink("LogOut", "LogOut", "Home")
+        </li>
+    </ul>
+</div>
+
+<h2>AfterLogin</h2>
+
+@if (Session["LogedUserFullName"] != null)
+{
+    <text> Welcome @Session["LogedUserFullName"].ToString()
+    </text>
+
+}
+
+
+
+

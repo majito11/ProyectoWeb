@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ReservasModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AdministradorSet">
+          <Key>
+            <PropertyRef Name="IdAdministrador" />
+          </Key>
+          <Property Name="IdAdministrador" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombresAdministrador" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ApellidosAdministrador" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="UsuarioAdministrador" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="PasswordAdministrador" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PosicionSet">
+          <Key>
+            <PropertyRef Name="IdPosicion" />
+          </Key>
+          <Property Name="IdPosicion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="latitud" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="longitud" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ReservaEcologicaSet">
+          <Key>
+            <PropertyRef Name="IdReservaEcologica" />
+          </Key>
+          <Property Name="IdReservaEcologica" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombreReservaEcologica" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ImagenReservaEcologica" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ProvinciaReservaEcologica" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DescripcionReservaEcologica" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="SitioWebReservaEcologica" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Posicion_IdPosicion" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_PosicionReservaEcologica">
+          <End Role="PosicionSet" Type="Self.PosicionSet" Multiplicity="1" />
+          <End Role="ReservaEcologicaSet" Type="Self.ReservaEcologicaSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PosicionSet">
+              <PropertyRef Name="IdPosicion" />
+            </Principal>
+            <Dependent Role="ReservaEcologicaSet">
+              <PropertyRef Name="Posicion_IdPosicion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ReservasModelStoreContainer">
+          <EntitySet Name="AdministradorSet" EntityType="Self.AdministradorSet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PosicionSet" EntityType="Self.PosicionSet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReservaEcologicaSet" EntityType="Self.ReservaEcologicaSet" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_PosicionReservaEcologica" Association="Self.FK_PosicionReservaEcologica">
+            <End Role="PosicionSet" EntitySet="PosicionSet" />
+            <End Role="ReservaEcologicaSet" EntitySet="ReservaEcologicaSet" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ReservasModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ReservasEntities" annotation:LazyLoadingEnabled="true" >
+          <EntitySet Name="PosicionSet" EntityType="ReservasModel.Posicion" />
+          <EntitySet Name="ReservaEcologicaSet" EntityType="ReservasModel.ReservaEcologica" />
+          <EntitySet Name="AdministradorSet" EntityType="ReservasModel.Administrador" />
+          <AssociationSet Name="PosicionReservaEcologica" Association="ReservasModel.PosicionReservaEcologica">
+            <End Role="Posicion" EntitySet="PosicionSet" />
+            <End Role="ReservaEcologica" EntitySet="ReservaEcologicaSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Posicion">
+          <Key>
+            <PropertyRef Name="IdPosicion" />
+          </Key>
+          <Property Name="IdPosicion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="latitud" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="longitud" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <NavigationProperty Name="ReservaEcologica" Relationship="ReservasModel.PosicionReservaEcologica" FromRole="Posicion" ToRole="ReservaEcologica" />
+        </EntityType>
+        <EntityType Name="ReservaEcologica">
+          <Key>
+            <PropertyRef Name="IdReservaEcologica" />
+          </Key>
+          <Property Name="IdReservaEcologica" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombreReservaEcologica" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="ImagenReservaEcologica" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="ProvinciaReservaEcologica" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="DescripcionReservaEcologica" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="SitioWebReservaEcologica" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Posicion" Relationship="ReservasModel.PosicionReservaEcologica" FromRole="ReservaEcologica" ToRole="Posicion" />
+        </EntityType>
+        <EntityType Name="Administrador">
+          <Key>
+            <PropertyRef Name="IdAdministrador" />
+          </Key>
+          <Property Name="IdAdministrador" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombresAdministrador" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="ApellidosAdministrador" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="UsuarioAdministrador" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="PasswordAdministrador" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <Association Name="PosicionReservaEcologica">
+          <End Type="ReservasModel.Posicion" Role="Posicion" Multiplicity="1" />
+          <End Type="ReservasModel.ReservaEcologica" Role="ReservaEcologica" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ReservasModelStoreContainer" CdmEntityContainer="ReservasEntities">
+    <EntitySetMapping Name="PosicionSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ReservasModel.Posicion)">
+        <MappingFragment StoreEntitySet="PosicionSet">
+          <ScalarProperty Name="IdPosicion" ColumnName="IdPosicion" />
+          <ScalarProperty Name="latitud" ColumnName="latitud" />
+          <ScalarProperty Name="longitud" ColumnName="longitud" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ReservaEcologicaSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ReservasModel.ReservaEcologica)">
+        <MappingFragment StoreEntitySet="ReservaEcologicaSet">
+          <ScalarProperty Name="IdReservaEcologica" ColumnName="IdReservaEcologica" />
+          <ScalarProperty Name="nombreReservaEcologica" ColumnName="nombreReservaEcologica" />
+          <ScalarProperty Name="ImagenReservaEcologica" ColumnName="ImagenReservaEcologica" />
+          <ScalarProperty Name="ProvinciaReservaEcologica" ColumnName="ProvinciaReservaEcologica" />
+          <ScalarProperty Name="DescripcionReservaEcologica" ColumnName="DescripcionReservaEcologica" />
+          <ScalarProperty Name="SitioWebReservaEcologica" ColumnName="SitioWebReservaEcologica" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AdministradorSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ReservasModel.Administrador)">
+        <MappingFragment StoreEntitySet="AdministradorSet">
+          <ScalarProperty Name="IdAdministrador" ColumnName="IdAdministrador" />
+          <ScalarProperty Name="NombresAdministrador" ColumnName="NombresAdministrador" />
+          <ScalarProperty Name="ApellidosAdministrador" ColumnName="ApellidosAdministrador" />
+          <ScalarProperty Name="UsuarioAdministrador" ColumnName="UsuarioAdministrador" />
+          <ScalarProperty Name="PasswordAdministrador" ColumnName="PasswordAdministrador" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="PosicionReservaEcologica" TypeName="ReservasModel.PosicionReservaEcologica" StoreEntitySet="ReservaEcologicaSet">
+      <EndProperty Name="Posicion">
+        <ScalarProperty Name="IdPosicion" ColumnName="Posicion_IdPosicion" />
+      </EndProperty>
+      <EndProperty Name="ReservaEcologica">
+        <ScalarProperty Name="IdReservaEcologica" ColumnName="IdReservaEcologica" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
